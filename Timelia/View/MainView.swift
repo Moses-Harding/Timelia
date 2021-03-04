@@ -134,38 +134,62 @@ class MainView: UIView {
         let animation4 = {
             //self.bottomLabel.alpha = 0
             
+
             self.layoutIfNeeded()
         }
         
         let animation5 = {
+            
+            self.mainButton.alpha = 1
+            
             self.spacer2Constraint.isActive = false
             self.spacer3Constraint.isActive = false
             self.spacer4Constraint.isActive = false
             self.layoutIfNeeded()
-            
             self.spacer4Constraint = self.spacer4.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.3)
             self.spacer3Constraint = self.spacer3.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.3)
             self.spacer3Constraint.isActive = true
             self.spacer4Constraint.isActive = true
             self.layoutIfNeeded()
-            
+        }
+        
+        let animation6 = {
             self.mainButton.alpha = 1
         }
         
-        UIView.animate(withDuration: 0.2, delay: 0.2, animations: animation1,
+        let animations = [animation1, animation2, animation3, animation4, animation5, animation6]
+        
+        let duration: TimeInterval = 7
+        let animationCount = Double(animations.count)
+        let animationDuration = duration / animationCount
+
+        
+        var iterator: Double = 0
+        
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubic, .layoutSubviews], animations: {
+            
+            animations.forEach { animation in
+                UIView.addKeyframe(withRelativeStartTime: iterator, relativeDuration: animationDuration, animations: animation)
+                iterator += (1.0 / animationCount)
+            }
+        })
+        
+        /*
+        UIView.animate(withDuration: delayTime, delay: 0.2, animations: animation1,
                        completion: { (Bool) in
-                        UIView.animate(withDuration: 0.2, animations: animation2,
+                        UIView.animate(withDuration: delayTime, animations: animation2,
                                        completion: { (Bool) in
-                                        UIView.animate(withDuration: 0.2, animations: animation3,
+                                        UIView.animate(withDuration: delayTime, animations: animation3,
                                                        completion: { Bool in
-                                                        UIView.animate(withDuration: 0.2, animations: animation4,
+                                                        UIView.animate(withDuration: delayTime, animations: animation4,
                                                                        completion: { Bool in
-                                                                        UIView.animate(withDuration: 0.3, animations: animation5)
+                                                                        UIView.animate(withDuration: delayTime, animations: animation5)
                                                                        })
                                                        })
                                        })
                         
                         
                        })
+        */
     }
 }
