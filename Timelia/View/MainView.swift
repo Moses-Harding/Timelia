@@ -22,6 +22,8 @@ class MainView: UIView {
         label.textColor = .white
         label.text = "Welcome to Timelia."
         label.font = UIFont.systemFont(ofSize: 24)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.alpha = 0
         return label
     }()
@@ -29,8 +31,10 @@ class MainView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .white
-        label.text = "Welcome to Timelia."
+        label.text = "Timelia helps you easily track time."
         label.font = UIFont.systemFont(ofSize: 24)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.alpha = 0
         return label
     }()
@@ -47,12 +51,17 @@ class MainView: UIView {
         return button
     }()
     
+    var clock: ClockView!
     
     let spacer1 = UIView()
     let spacer2 = UIView()
     let spacer3 = UIView()
     let spacer4 = UIView()
     
+    var topLabelConstraint: NSLayoutConstraint!
+    var bottomLabelConstraint: NSLayoutConstraint!
+    
+    var spacer1Constraint: NSLayoutConstraint!
     var spacer2Constraint: NSLayoutConstraint!
     var spacer3Constraint: NSLayoutConstraint!
     var spacer4Constraint: NSLayoutConstraint!
@@ -72,7 +81,6 @@ class MainView: UIView {
     func constrainTo(parent: UIView) {
         
         let padding: CGFloat = 0
-        //let safeArea = parent.safeAreaLayoutGuide
         let safeArea = parent
         
         parent.addSubview(self)
@@ -100,19 +108,29 @@ class MainView: UIView {
         mainStack.addArrangedSubview(spacer3)
         mainStack.addArrangedSubview(mainButtonView)
         mainStack.addArrangedSubview(spacer4)
-        
-        spacer1.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.2).isActive = true
-        spacer2Constraint = spacer2.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1)
-        spacer3Constraint = spacer3.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1)
-        spacer4Constraint = spacer4.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1)
-        topLabel.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1).isActive = true
+
         mainButtonView.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.075).isActive = true
         mainButtonView.constrainAndScale(mainButton, widthScale: 0.9, heightScale: 0.9)
         
+        topLabelConstraint = topLabel.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1)
+        bottomLabelConstraint = bottomLabel.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1)
+        
+        topLabelConstraint.isActive = true
+        bottomLabelConstraint.isActive = true
+        
+        spacer1Constraint = spacer1.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.2)
+        spacer2Constraint = spacer2.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.1)
+        spacer3Constraint = spacer3.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.2)
+        spacer4Constraint = spacer4.heightAnchor.constraint(equalTo: mainStack.heightAnchor, multiplier: 0.2)
+        
+        spacer1Constraint.isActive = true
         spacer2Constraint.isActive = true
         spacer3Constraint.isActive = true
+        spacer4Constraint.isActive = true
         
         self.layoutIfNeeded()
+        
+        spacer3.backgroundColor = .red
     }
     
     func animateView() {
@@ -127,14 +145,10 @@ class MainView: UIView {
         }
         
         let animation3 = {
-            self.bottomLabel.text = "Timelia helps you easily track time."
             self.bottomLabel.alpha = 1
         }
         
         let animation4 = {
-            //self.bottomLabel.alpha = 0
-            
-
             self.layoutIfNeeded()
         }
         
@@ -142,54 +156,62 @@ class MainView: UIView {
             
             self.mainButton.alpha = 1
             
-            self.spacer2Constraint.isActive = false
-            self.spacer3Constraint.isActive = false
-            self.spacer4Constraint.isActive = false
-            self.layoutIfNeeded()
-            self.spacer4Constraint = self.spacer4.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.3)
+            self.topLabelConstraint.isActive = false
+
+            self.spacer1Constraint = self.spacer1.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.1)
+            self.spacer2Constraint = self.spacer2.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.05)
             self.spacer3Constraint = self.spacer3.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.3)
+            self.spacer4Constraint = self.spacer4.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.3)
+            
+            self.spacer1Constraint.isActive = true
+            self.spacer2Constraint.isActive = true
             self.spacer3Constraint.isActive = true
             self.spacer4Constraint.isActive = true
+            
             self.layoutIfNeeded()
         }
         
         let animation6 = {
-            self.mainButton.alpha = 1
+            
+            self.spacer1Constraint = self.spacer1.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.1)
+            self.spacer2Constraint = self.spacer2.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.025)
+            self.spacer3Constraint = self.spacer3.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.25)
+            self.spacer4Constraint = self.spacer4.heightAnchor.constraint(equalTo: self.mainStack.heightAnchor, multiplier: 0.3)
+        
+            self.spacer1Constraint.isActive = true
+            self.spacer2Constraint.isActive = true
+            self.spacer3Constraint.isActive = true
+            self.spacer4Constraint.isActive = true
+            
+            self.layoutIfNeeded()
+            
+            //self.clock.drawShapes()
         }
         
-        let animations = [animation1, animation2, animation3, animation4, animation5, animation6]
+        let animation7 = {
+            
+            self.clock = ClockView()
+            self.spacer3.constrainChild(self.clock)
+            
+            self.clock.animate()
+        }
+
+        
+        let animations = [animation1, animation2, animation3, animation4, animation5, animation6, animation7]
         
         let duration: TimeInterval = 7
         let animationCount = Double(animations.count)
-        let animationDuration = duration / animationCount
-
+        let animationDuration = 1 / animationCount
+        
         
         var iterator: Double = 0
         
-        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubic, .layoutSubviews], animations: {
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubic, .layoutSubviews]) {
             
             animations.forEach { animation in
                 UIView.addKeyframe(withRelativeStartTime: iterator, relativeDuration: animationDuration, animations: animation)
-                iterator += (1.0 / animationCount)
+                iterator += animationDuration
             }
-        })
-        
-        /*
-        UIView.animate(withDuration: delayTime, delay: 0.2, animations: animation1,
-                       completion: { (Bool) in
-                        UIView.animate(withDuration: delayTime, animations: animation2,
-                                       completion: { (Bool) in
-                                        UIView.animate(withDuration: delayTime, animations: animation3,
-                                                       completion: { Bool in
-                                                        UIView.animate(withDuration: delayTime, animations: animation4,
-                                                                       completion: { Bool in
-                                                                        UIView.animate(withDuration: delayTime, animations: animation5)
-                                                                       })
-                                                       })
-                                       })
-                        
-                        
-                       })
-        */
+        }
     }
 }
