@@ -51,7 +51,7 @@ class MainView: UIView {
         return button
     }()
     
-    var clock: ClockView!
+    var clock: ClockView = ClockView()
     
     let spacer1 = UIView()
     let spacer2 = UIView()
@@ -129,15 +129,13 @@ class MainView: UIView {
         spacer4Constraint.isActive = true
         
         self.layoutIfNeeded()
-        
-        spacer3.backgroundColor = .red
     }
     
     func animateView() {
         
-        let animation1 = { [self] in
+        let animation1 = {
             self.layoutIfNeeded()
-            topLabel.alpha = 1
+            self.topLabel.alpha = 1
         }
         
         let animation2 = {
@@ -185,32 +183,58 @@ class MainView: UIView {
             
             self.layoutIfNeeded()
             
-            //self.clock.drawShapes()
+            _ = self.spacer3.constrainChild(self.clock, padding: 5)
         }
         
         let animation7 = {
-            
-            self.clock = ClockView()
-            self.spacer3.constrainChild(self.clock)
-            
-            self.clock.animate()
+            self.clock.topMidView.alpha = 1
+        }
+        
+        let animation8 = {
+            self.clock.topRightView.alpha = 1
+        }
+        
+        let animation9 = {
+            self.clock.midRightView.alpha = 1
+        }
+        
+        let animation10 = {
+            self.clock.bottomRightView.alpha = 1
+        }
+        
+        let animation11 = {
+            self.clock.bottomMidView.alpha = 1
+        }
+        
+        let animation12 = {
+            self.clock.bottomLeftView.alpha = 1
+        }
+        
+        let animation13 = {
+            self.clock.midLeftView.alpha = 1
+        }
+        
+        let animation14 = {
+            self.clock.topLeftView.alpha = 1
         }
 
-        
-        let animations = [animation1, animation2, animation3, animation4, animation5, animation6, animation7]
-        
         let duration: TimeInterval = 7
+        let animations = [animation1, animation2, animation3, animation4, animation5, animation6, animation7, animation7, animation8, animation9, animation10,
+        animation11, animation12, animation13, animation14]
+        let durations = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025, 0.025]
+        
         let animationCount = Double(animations.count)
-        let animationDuration = 1 / animationCount
         
+        var startTime: Double = 0
+        var iterator = 0
         
-        var iterator: Double = 0
-        
-        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.calculationModeCubic, .layoutSubviews]) {
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [.layoutSubviews]) {
             
             animations.forEach { animation in
-                UIView.addKeyframe(withRelativeStartTime: iterator, relativeDuration: animationDuration, animations: animation)
-                iterator += animationDuration
+                let relativeDuration: Double = durations[iterator]
+                UIView.addKeyframe(withRelativeStartTime: startTime, relativeDuration: relativeDuration, animations: animation)
+                startTime += relativeDuration
+                iterator += 1
             }
         }
     }

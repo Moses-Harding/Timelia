@@ -50,23 +50,22 @@ class ClockView: UIView {
         verticalStack.addArrangedSubview(midStack)
         verticalStack.addArrangedSubview(bottomStack)
         
-        topLeftView.backgroundColor = .blue
+        self.drawShapes()
         
-        /*
-        topLeftView.isHidden = true
-        topMidView.isHidden = true
-        topRightView.isHidden = true
-        midLeftView.isHidden = true
-        //midMidView.isHidden = true
-        midRightView.isHidden = true
-        bottomLeftView.isHidden = true
-        bottomMidView.isHidden = true
-        bottomRightView.isHidden = true
-        */
+        
+        topLeftView.alpha = 0
+        topMidView.alpha = 0
+        topRightView.alpha = 0
+        midLeftView.alpha = 0
+        midRightView.alpha = 0
+        bottomLeftView.alpha = 0
+        bottomMidView.alpha = 0
+        bottomRightView.alpha = 0
+        
     }
     
     func drawShapes() {
-  
+        
         drawVerticalLine(topMidView)
         drawVerticalLine(bottomMidView)
         drawHorizontalLine(midLeftView)
@@ -77,7 +76,7 @@ class ClockView: UIView {
         drawLeftDiagonal(topLeftView)
         drawLeftDiagonal(bottomRightView)
     }
-
+    
     
     func drawVerticalLine(_ currentView: UIView) {
         
@@ -88,7 +87,7 @@ class ClockView: UIView {
     }
     
     func drawHorizontalLine(_ currentView: UIView) {
-
+        
         let imageView = UIImageView(image: UIImage(named: "Line - Horizontal"))
         
         imageView.contentMode = .scaleAspectFit
@@ -100,7 +99,7 @@ class ClockView: UIView {
         let imageView = UIImageView(image: UIImage(named: "Line - Ascending"))
         
         currentView.constrainChild(imageView)
-
+        
     }
     
     func drawLeftDiagonal(_ currentView: UIView) {
@@ -110,66 +109,67 @@ class ClockView: UIView {
         currentView.constrainChild(imageView)
     }
     
-    func animate() {
-
+    func animate(_ delay: TimeInterval) {
+        
+    }
+    
+    func animate(with delay: TimeInterval) {
+        
         let animate1 = {
-            self.drawLeftDiagonal(self.topLeftView)
-            self.topLeftView.isHidden = false
+            //
         }
         
         let animate2 = {
-            self.drawVerticalLine(self.topMidView)
-            self.topMidView.isHidden = false
+            self.topMidView.alpha = 1
         }
         
         let animate3 = {
-            self.drawRightDiagonal(self.topRightView)
-            self.topRightView.isHidden = false
+            self.topRightView.alpha = 1
         }
         
         let animate4 = {
-            self.drawHorizontalLine(self.midRightView)
-            self.midRightView.isHidden = false
+            self.midRightView.alpha = 1
         }
         
         let animate5 = {
-            self.drawLeftDiagonal(self.bottomRightView)
-            self.bottomRightView.isHidden = false
+            self.bottomRightView.alpha = 1
         }
         
         let animate6 = {
-            self.drawVerticalLine(self.bottomMidView)
-            self.bottomMidView.isHidden = false
+            self.bottomMidView.alpha = 1
         }
         
         let animate7 = {
-            self.drawRightDiagonal(self.bottomLeftView)
-            self.bottomLeftView.isHidden = false
+            self.bottomLeftView.alpha = 1
         }
         
         let animate8 = {
-            self.drawHorizontalLine(self.midLeftView)
-            self.midLeftView.isHidden = false
+            self.midLeftView.alpha = 1
         }
         
-        let animations = [animate1, animate2, animate3, animate4, animate5, animate6, animate7, animate8]
-        
-        let duration: TimeInterval = 7
-        let animationCount = Double(animations.count)
-        let animationDuration = 1 / animationCount
-        
-        
-        var iterator: Double = 0
-        
-        UIView.animateKeyframes(withDuration: duration, delay: 7, options: [.calculationModeCubic, .layoutSubviews]) {
-            
-            animations.forEach { animation in
-                UIView.addKeyframe(withRelativeStartTime: iterator, relativeDuration: animationDuration, animations: animation)
-                iterator += animationDuration
-            }
+        let animate9 = {
+            self.topLeftView.alpha = 1
         }
+        
+        /*
+         let animations = [animate2, animate3, animate4, animate5, animate6, animate7, animate8, animate9]
+         
+         let duration: TimeInterval = 0.1
+         let animationCount = Double(animations.count)
+         let animationDuration = 1 / animationCount
+         
+         var iterator: Double = 0
+         
+         UIView.animateKeyframes(withDuration: duration, delay: delay, options: [.layoutSubviews]) {
+         
+         animations.forEach { animation in
+         UIView.addKeyframe(withRelativeStartTime: iterator, relativeDuration: animationDuration, animations: animation)
+         iterator += animationDuration
+         }
+         }
+         */
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
