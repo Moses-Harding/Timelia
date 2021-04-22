@@ -30,6 +30,11 @@ extension UIView {
         topConstraint.isActive = true
         bottomConstraint.isActive = true
         
+        leadingConstraint.identifier = "Constrain Child - leading"
+        trailingConstraint.identifier = "Constrain Child - trailing"
+        topConstraint.identifier = "Constrain Child - top"
+        bottomConstraint.identifier = "Constrain Child - bottom"
+        
         exceptions.forEach {
             switch $0 {
             case .leading:
@@ -63,6 +68,11 @@ extension UIView {
         centerYConstraint.isActive = true
         widthConstraint.isActive = true
         heightConstraint.isActive = true
+        
+        centerXConstraint.identifier = "Constraint And Scale - Center X"
+        centerYConstraint.identifier = "Constraint And Scale - Center Y"
+        widthConstraint.identifier = "Constraint And Scale - Width"
+        heightConstraint.identifier = "Constraint And Scale - Height"
         
         let constraintTuple = (centerXConstraint: centerXConstraint, centerYConstraint: centerYConstraint, widthConstraint: widthConstraint, heightConstraint: heightConstraint)
         

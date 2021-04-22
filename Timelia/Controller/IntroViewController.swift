@@ -7,24 +7,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class IntroViewController: UIViewController {
     
-    var mainView: MainView!
+    var introView: IntroView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         setUpGradient()
-        setUpMainView()
-        
-        mainView.animateView()
+        setUpIntroView()
+        introView.introAnimation()
     }
     
-    func setUpMainView() {
+    func setUpIntroView() {
         
-        mainView = MainView(parent: self)
-        
+        introView = IntroView(parent: self)
 
     }
     
@@ -43,4 +41,5 @@ class ViewController: UIViewController {
         self.view.layer.addSublayer(gradient)
     }
 }
+
 
